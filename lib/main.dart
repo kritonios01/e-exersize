@@ -141,6 +141,7 @@ class MainNavigationBar extends StatefulWidget {
 }
 
 class _NavigationBarState extends State<MainNavigationBar> {
+  final List<Widget> appPages = [CreateTeamPage(), HomePage(), NotificationsPage()];
   int currentPageIndex = 1;
 
   @override
@@ -171,192 +172,209 @@ class _NavigationBarState extends State<MainNavigationBar> {
             icon: Badge(child: Icon(Icons.notifications_outlined)),
             label: 'Notifications',
           ),
-
         ],
       ),
 
-      body: <Widget>[
-        Column(     /// Home page
-          children: [
-            Expanded(  // First block
-              child: DefaultTextStyle(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: theme.textTheme.bodyLarge!.fontFamily,
-                ),
-                child: Container(
-                  color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
-                  child: Stack(
-                    children: [
-                      // Commenting out the info icon at the top left
-                      // Align(
-                      //   alignment: Alignment.topLeft,
-                      //   child: IconButton(
-                      //     icon: Icon(
-                      //       Icons.info,
-                      //       color: Colors.white,
-                      //     ),
-                      //     onPressed: () {
-                      //       // Add your info icon tap logic here
-                      //     },
-                      //   ),
-                      // ),
-                      Center(
-                        child: Text('Connecting Athletes', style: TextStyle(fontFamily: 'RhodiumLibre')),
-                      ),
-                      Positioned(
-                        top: 16.0,
-                        right: 16.0,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.info,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            // Navigating to the InfoPage when the top right info icon is pressed
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InfoPage(),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(   // Second block
-              height: 400.0,
-              color: Colors.white,
-              child: Image.asset(
-                'assets/main_page_bball.png', // Replace with your actual image file name
-                fit: BoxFit.cover,
-              ),
-            ),
-            Expanded(   // Third block
-              child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 80.0, // Adjust the height as needed
-                      color: theme.colorScheme.tertiary, // Burgundy color
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // setState(() {
-                            //   currentPageIndex = 4;
-                            // });
-                            Navigator.push( //this changes page with animation, can it be implemented within the current navigationbar??
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SearchTeamsPage(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary //Color(0xFF6A1B9A), // Slightly darker purple
-                          ),
-                          child: Text(
-                            'Search for teams!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-
-        //notification page
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.notifications_sharp),
-                  title: Text('Notification 1'),
-                  subtitle: Text('This is a notification'),
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.notifications_sharp),
-                  title: Text('Notification 2'),
-                  subtitle: Text('This is a notification'),
-                ),
-              ),
-            ],
+      body: Navigator(
+        pages: [
+          MaterialPage(
+            key: ValueKey('FirstPage'),
+            child: appPages[currentPageIndex],
           ),
-        ),
+        ],
+        onPopPage: (route, result) {
+          return route.didPop(result);
+        },
+      )
 
-        /// Messages page
-        ListView.builder(
-          reverse: true,
-          itemCount: 2,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: const EdgeInsets.all(8.0),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    'Hello',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(color: theme.colorScheme.onPrimary),
-                  ),
-                ),
-              );
-            }
-            return Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Text(
-                  'Hi!',
-                  style: theme.textTheme.bodyLarge!
-                      .copyWith(color: theme.colorScheme.onPrimary),
-                ),
-              ),
-            );
-          },
-        ),
+      // <Widget>[
+      //   HomePage(),
 
-        //4thpage
+      //   //notification page
+      //   const Padding(
+      //     padding: EdgeInsets.all(8.0),
+      //     child: Column(
+      //       children: <Widget>[
+      //         Card(
+      //           child: ListTile(
+      //             leading: Icon(Icons.notifications_sharp),
+      //             title: Text('Notification 1'),
+      //             subtitle: Text('This is a notification'),
+      //           ),
+      //         ),
+      //         Card(
+      //           child: ListTile(
+      //             leading: Icon(Icons.notifications_sharp),
+      //             title: Text('Notification 2'),
+      //             subtitle: Text('This is a notification'),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+
+      //   /// Messages page
+      //   ListView.builder(
+      //     reverse: true,
+      //     itemCount: 2,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       if (index == 0) {
+      //         return Align(
+      //           alignment: Alignment.centerRight,
+      //           child: Container(
+      //             margin: const EdgeInsets.all(8.0),
+      //             padding: const EdgeInsets.all(8.0),
+      //             decoration: BoxDecoration(
+      //               color: theme.colorScheme.primary,
+      //               borderRadius: BorderRadius.circular(8.0),
+      //             ),
+      //             child: Text(
+      //               'Hello',
+      //               style: theme.textTheme.bodyLarge!
+      //                   .copyWith(color: theme.colorScheme.onPrimary),
+      //             ),
+      //           ),
+      //         );
+      //       }
+      //       return Align(
+      //         alignment: Alignment.centerLeft,
+      //         child: Container(
+      //           margin: const EdgeInsets.all(8.0),
+      //           padding: const EdgeInsets.all(8.0),
+      //           decoration: BoxDecoration(
+      //             color: theme.colorScheme.primary,
+      //             borderRadius: BorderRadius.circular(8.0),
+      //           ),
+      //           child: Text(
+      //             'Hi!',
+      //             style: theme.textTheme.bodyLarge!
+      //                 .copyWith(color: theme.colorScheme.onPrimary),
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+
+      //   //4thpage
         
-      ][currentPageIndex]
+      // ][currentPageIndex]
     );
   }
 }
 
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-
-
-
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Column(     /// Home page
+      children: [
+        Expanded(  // First block
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: theme.textTheme.bodyLarge!.fontFamily,
+            ),
+            child: Container(
+              color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
+              child: Stack(
+                children: [
+                  // Commenting out the info icon at the top left
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: IconButton(
+                  //     icon: Icon(
+                  //       Icons.info,
+                  //       color: Colors.white,
+                  //     ),
+                  //     onPressed: () {
+                  //       // Add your info icon tap logic here
+                  //     },
+                  //   ),
+                  // ),
+                  Center(
+                    child: Text('Connecting Athletes', style: TextStyle(fontFamily: 'RhodiumLibre')),
+                  ),
+                  Positioned(
+                    top: 16.0,
+                    right: 16.0,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.info,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        // Navigating to the InfoPage when the top right info icon is pressed
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InfoPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(   // Second block
+          height: 400.0,
+          color: Colors.white,
+          child: Image.asset(
+            'assets/main_page_bball.png', // Replace with your actual image file name
+            fit: BoxFit.cover,
+          ),
+        ),
+        Expanded(   // Third block
+          child: Container(
+            color: theme.colorScheme.tertiary, // Burgundy color
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 80.0, // Adjust the height as needed
+                  color: theme.colorScheme.tertiary, // Burgundy color
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.push( //this changes page with animation, can it be implemented within the current navigationbar??
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SearchTeamsPage(),
+                        //   ),
+                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SearchTeamsPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary //Color(0xFF6A1B9A), // Slightly darker purple
+                      ),
+                      child: Text(
+                        'Search for teams!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 
 
@@ -456,33 +474,41 @@ class InfoPage extends StatelessWidget {
 
 
 
-
-
-
-
-
-
-
-
-
 class SearchTeamsPage extends StatelessWidget {
+  const SearchTeamsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height:700,
-        width: double.infinity,
-        child: Column(
-          children: [
-            // First block
-            Container(
-              height:100,
-              child: Container(
-                color: Color(0xFF800000), // Burgundy color
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
+    final ThemeData theme = Theme.of(context);
+    return Column(     /// Home page
+      children: [
+        Expanded(  // First block
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: theme.textTheme.bodyLarge!.fontFamily,
+            ),
+            child: Container(
+              color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
+              child: Stack(
+                children: [
+                  // Commenting out the info icon at the top left
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: IconButton(
+                  //     icon: Icon(
+                  //       Icons.info,
+                  //       color: Colors.white,
+                  //     ),
+                  //     onPressed: () {
+                  //       // Add your info icon tap logic here
+                  //     },
+                  //   ),
+                  // ),
+                  SafeArea(
+                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -493,22 +519,45 @@ class SearchTeamsPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    Center(
-                      child: Text(
+                  
+                  Center(
+                    child: Text(
                         'Find your team to connect with other athletes',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                          //fontWeight: FontWeight.bold,
+                          fontFamily: 'RhodiumLibre'
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ],
-                ),
+                  ),
+                  // Positioned(
+                  //   top: 1.0,
+                  //   right: 16.0,
+                  //   child: SafeArea(child:
+                  //     IconButton(
+                  //       icon: Icon(
+                  //         Icons.info,
+                  //         color: Colors.white,
+                  //       ),
+                  //       onPressed: () {
+                  //         // Navigating to the InfoPage when the top right info icon is pressed
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) => InfoPage(),
+                  //           ),
+                  //         );
+                  //       },
+                  //   ),)
+                  // ),
+                ],
               ),
             ),
-            // Second block
-            Container(
+          ),
+        ),
+        Container(
               height: 400.0,
               color: Colors.white,
               child: Stack(
@@ -658,115 +707,48 @@ class SearchTeamsPage extends StatelessWidget {
                 ],
               ),
             ),
-            // Fourth block
-            // Expanded(
-            //   child: Container(
-            //     color: Color(0xFF800000), // Burgundy color
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Container(
-            //           height: 80.0, // Adjust the height as needed
-            //           color: Color(0xFF800000), // Burgundy color
-            //           child: Center(
-            //             child: ElevatedButton(
-            //               onPressed: () {
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                     builder: (context) => TeamsFoundPage(),
-            //                   ),
-            //                 );
-            //               },
-            //               style: ElevatedButton.styleFrom(
-            //                 primary: Color(0xFF6A1B9A), // Slightly darker purple
-            //               ),
-            //               child: Text(
-            //                 'Find available teams',
-            //                 style: TextStyle(
-            //                   color: Colors.white,
-            //                   fontSize: 18.0,
-            //                   fontWeight: FontWeight.bold,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //         Container(
-            //           height: 50.0, // Adjust the height as needed
-            //           color: Colors.white,
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //             children: [
-            //               ElevatedButton(
-            //                 onPressed: () {
-            //                   // Add your create team logic here
-            //                   Navigator.push(
-            //                     context,
-            //                     MaterialPageRoute(
-            //                       builder: (context) => CreateTeamPage(),
-            //                     ),
-            //                   );
-            //                 },
-            //                 style: ElevatedButton.styleFrom(
-            //                   primary: Color(0xFF6A1B9A), // Slightly darker purple
-            //                 ),
-            //                 child: Icon(
-            //                   Icons.create,
-            //                   color: Colors.white,
-            //                 ),
-            //               ),
-            //               IconButton(
-            //                 icon: Icon(Icons.home),
-            //                 onPressed: () {
-            //                   // Add your home logic here
-            //                   Navigator.popUntil(
-            //                     context,
-            //                     ModalRoute.withName('/'),
-            //                   );
-            //                 },
-            //               ),
-            //               Stack(
-            //                 children: [
-            //                   IconButton(
-            //                     icon: Icon(Icons.notifications),
-            //                     onPressed: () {
-            //                       Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                     builder: (context) => NotificationsPage(),
-            //                   ),
-            //                 );
-            //                       // Add your notifications logic here
-            //                     },
-            //                   ),
-            //                   Positioned(
-            //                     top: 5.0,
-            //                     right: 5.0,
-            //                     child: CircleAvatar(
-            //                       radius: 8.0,
-            //                       backgroundColor: Colors.red,
-            //                       child: Text(
-            //                         '3',
-            //                         style: TextStyle(
-            //                           color: Colors.white,
-            //                           fontSize: 10.0,
-            //                         ),
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 ],
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-          ],
+        Expanded(   // Third block
+          child: Container(
+            color: theme.colorScheme.tertiary, // Burgundy color
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 80.0, // Adjust the height as needed
+                  color: theme.colorScheme.tertiary, // Burgundy color
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.push( //this changes page with animation, can it be implemented within the current navigationbar??
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SearchTeamsPage(),
+                        //   ),
+                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => TeamsFoundPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary //Color(0xFF6A1B9A), // Slightly darker purple
+                      ),
+                      child: Text(
+                        'Find available teams!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -775,12 +757,10 @@ class SearchTeamsPage extends StatelessWidget {
 
 
 
-
-
-
 class CreateTeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -789,11 +769,11 @@ class CreateTeamPage extends StatelessWidget {
             // First block
             Expanded(
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
+                color: theme.colorScheme.tertiary, // Burgundy color
                 child: Stack(
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
+                    SafeArea(
+                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -810,8 +790,10 @@ class CreateTeamPage extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                          //fontWeight: FontWeight.bold,
+                          fontFamily: 'RhodiumLibre'
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],
@@ -972,20 +954,23 @@ class CreateTeamPage extends StatelessWidget {
             // Fourth block
             Expanded(
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
+                color: theme.colorScheme.tertiary, // Burgundy color
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       height: 80.0, // Adjust the height as needed
-                      color: Color(0xFF800000), // Burgundy color
+                      color: theme.colorScheme.tertiary, // Burgundy color
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF6A1B9A), // Slightly darker purple
+                            primary: theme.colorScheme.primary, // Slightly darker purple
                           ),
                           child: Text(
                             'Create team',
@@ -996,74 +981,6 @@ class CreateTeamPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Add your create team logic here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CreateTeamPage(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6A1B9A), // Slightly darker purple
-                            ),
-                            child: Icon(
-                              Icons.create,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.home),
-                            onPressed: () {
-                              // Add your home logic here
-                              Navigator.popUntil(
-                                context,
-                                ModalRoute.withName('/'),
-                              );
-                            },
-                          ),
-                          Stack(
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.notifications),
-                                onPressed: () {
-                                  Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NotificationsPage(),
-                              ),
-                            );
-                                  // Add your notifications logic here
-                                },
-                              ),
-                              Positioned(
-                                top: 5.0,
-                                right: 5.0,
-                                child: CircleAvatar(
-                                  radius: 8.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
                     ),
                   ],
@@ -1087,6 +1004,7 @@ class CreateTeamPage extends StatelessWidget {
 
 
 class TeamsFoundPage extends StatefulWidget {
+  const TeamsFoundPage({super.key});
   @override
   _TeamsFoundPageState createState() => _TeamsFoundPageState();
 }
@@ -1098,6 +1016,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -1106,11 +1025,11 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
             // First block
             Expanded(
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
+                color: theme.colorScheme.tertiary, // Burgundy color
                 child: Stack(
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
+                    SafeArea(
+                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -1121,16 +1040,31 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                         },
                       ),
                     ),
+                    // Align(
+                    //   alignment: Alignment.topLeft,
+                    //   child: IconButton(
+                    //     icon: Icon(
+                    //       Icons.arrow_back,
+                    //       color: Colors.white,
+                    //     ),
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //   ),
+                    // ),
                     Center(
                       child: Text(
                         'We found some teams that match your criteria!',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          //fontWeight: FontWeight.bold,
+                          fontFamily: 'RhodiumLibre'
+                        ),
+                        textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
+                    
                   ],
                 ),
               ),
@@ -1170,20 +1104,23 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
             // Third block
             Expanded(
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
+                color: theme.colorScheme.tertiary, // Burgundy color
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       height: 50.0, // Adjust the height as needed
-                      color: Color(0xFF800000), // Burgundy color
+                      color: theme.colorScheme.tertiary, // Burgundy color
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF6A1B9A), // Slightly darker purple
+                            primary: theme.colorScheme.primary, // Slightly darker purple
                           ),
                           child: Text(
                             'Accept',
@@ -1196,74 +1133,74 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Add your create team logic here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CreateTeamPage(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6A1B9A), // Slightly darker purple
-                            ),
-                            child: Icon(
-                              Icons.create,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.home),
-                            onPressed: () {
-                              // Add your home logic here
-                              Navigator.popUntil(
-                                context,
-                                ModalRoute.withName('/'),
-                              );
-                            },
-                          ),
-                          Stack(
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.notifications),
-                                onPressed: () {
-                                  Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NotificationsPage(),
-                              ),
-                            );
-                                  // Add your notifications logic here
-                                },
-                              ),
-                              Positioned(
-                                top: 5.0,
-                                right: 5.0,
-                                child: CircleAvatar(
-                                  radius: 8.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   height: 50.0, // Adjust the height as needed
+                    //   color: Colors.white,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //     children: [
+                    //       ElevatedButton(
+                    //         onPressed: () {
+                    //           // Add your create team logic here
+                    //           Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //               builder: (context) => CreateTeamPage(),
+                    //             ),
+                    //           );
+                    //         },
+                    //         style: ElevatedButton.styleFrom(
+                    //           primary: Color(0xFF6A1B9A), // Slightly darker purple
+                    //         ),
+                    //         child: Icon(
+                    //           Icons.create,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //       IconButton(
+                    //         icon: Icon(Icons.home),
+                    //         onPressed: () {
+                    //           // Add your home logic here
+                    //           Navigator.popUntil(
+                    //             context,
+                    //             ModalRoute.withName('/'),
+                    //           );
+                    //         },
+                    //       ),
+                    //       Stack(
+                    //         children: [
+                    //           IconButton(
+                    //             icon: Icon(Icons.notifications),
+                    //             onPressed: () {
+                    //               Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => NotificationsPage(),
+                    //           ),
+                    //         );
+                    //               // Add your notifications logic here
+                    //             },
+                    //           ),
+                    //           Positioned(
+                    //             top: 5.0,
+                    //             right: 5.0,
+                    //             child: CircleAvatar(
+                    //               radius: 8.0,
+                    //               backgroundColor: Colors.red,
+                    //               child: Text(
+                    //                 '3',
+                    //                 style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 10.0,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -1360,8 +1297,10 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
 
 
 class NotificationsPage extends StatelessWidget {
+  const NotificationsPage({super.key});
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -1370,11 +1309,11 @@ class NotificationsPage extends StatelessWidget {
             // First block
             Expanded(
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
+                color: theme.colorScheme.tertiary, // Burgundy color
                 child: Stack(
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
+                    SafeArea(
+                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -1391,7 +1330,9 @@ class NotificationsPage extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                          //fontWeight: FontWeight.bold,
+                          fontFamily: 'RhodiumLibre'
+                        
                         ),
                       ),
                     ),
@@ -1567,78 +1508,78 @@ class NotificationsPage extends StatelessWidget {
             // Third block
             Expanded(
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Color(0xFF800000), // Burgundy color
-                    ),
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Add your create team logic here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CreateTeamPage(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6A1B9A), // Slightly darker purple
-                            ),
-                            child: Icon(
-                              Icons.create,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.home),
-                            onPressed: () {
-                              // Add your home logic here
-                              Navigator.popUntil(
-                                context,
-                                ModalRoute.withName('/'),
-                              );
-                            },
-                          ),
-                          Stack(
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.notifications),
-                                onPressed: () {
-                                  // Add your notifications logic here
-                                },
-                              ),
-                              Positioned(
-                                top: 5.0,
-                                right: 5.0,
-                                child: CircleAvatar(
-                                  radius: 8.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                color: theme.colorScheme.tertiary, // Burgundy color
+                // child: Column(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Container(
+                //       height: 50.0, // Adjust the height as needed
+                //       color: Color(0xFF800000), // Burgundy color
+                //     ),
+                //     Container(
+                //       height: 50.0, // Adjust the height as needed
+                //       color: Colors.white,
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           ElevatedButton(
+                //             onPressed: () {
+                //               // Add your create team logic here
+                //               Navigator.push(
+                //                 context,
+                //                 MaterialPageRoute(
+                //                   builder: (context) => CreateTeamPage(),
+                //                 ),
+                //               );
+                //             },
+                //             style: ElevatedButton.styleFrom(
+                //               primary: Color(0xFF6A1B9A), // Slightly darker purple
+                //             ),
+                //             child: Icon(
+                //               Icons.create,
+                //               color: Colors.white,
+                //             ),
+                //           ),
+                //           IconButton(
+                //             icon: Icon(Icons.home),
+                //             onPressed: () {
+                //               // Add your home logic here
+                //               Navigator.popUntil(
+                //                 context,
+                //                 ModalRoute.withName('/'),
+                //               );
+                //             },
+                //           ),
+                //           Stack(
+                //             children: [
+                //               IconButton(
+                //                 icon: Icon(Icons.notifications),
+                //                 onPressed: () {
+                //                   // Add your notifications logic here
+                //                 },
+                //               ),
+                //               Positioned(
+                //                 top: 5.0,
+                //                 right: 5.0,
+                //                 child: CircleAvatar(
+                //                   radius: 8.0,
+                //                   backgroundColor: Colors.red,
+                //                   child: Text(
+                //                     '3',
+                //                     style: TextStyle(
+                //                       color: Colors.white,
+                //                       fontSize: 10.0,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ),
             ),
           ],
