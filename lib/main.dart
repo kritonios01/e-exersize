@@ -246,11 +246,14 @@ class _NavigationBarState extends State<MainNavigationBar> {
                   children: [
                     Container(
                       height: 80.0, // Adjust the height as needed
-                      color: Color(0xFF800000), // Burgundy color
+                      color: theme.colorScheme.tertiary, // Burgundy color
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
+                            // setState(() {
+                            //   currentPageIndex = 4;
+                            // });
+                            Navigator.push( //this changes page with animation, can it be implemented within the current navigationbar??
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SearchTeamsPage(),
@@ -271,80 +274,81 @@ class _NavigationBarState extends State<MainNavigationBar> {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Material(
-                            color: Colors.transparent,
-                            child: IconButton(
-                              icon: Icon(Icons.create, color: Color(0xFF6A1B9A)),
-                              onPressed: () {
-                                Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CreateTeamPage(),
-                              ),
-                            );// Add your create team logic here
-                              },
-                            ),
-                          ),
-                          Material(
-                            color: Colors.transparent,
-                            child: IconButton(
-                              icon: Icon(Icons.home, color: Color(0xFF6A1B9A)),
-                              onPressed: () {
-                                
-                                // Add your home logic here
-                              },
-                            ),
-                          ),
-                          Stack(
-                            children: [
-                              Material(
-                                color: Colors.transparent,
-                                child: IconButton(
-                                  icon: Icon(Icons.notifications, color: Color(0xFF6A1B9A)),
-                                  onPressed: () {
-                                    // Navigating to the NotificationsPage when the notifications bell is pressed
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NotificationsPage(),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Positioned(
-                                top: 5.0,
-                                right: 5.0,
-                                child: CircleAvatar(
-                                  radius: 8.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
+
+        //notification page
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.notifications_sharp),
+                  title: Text('Notification 1'),
+                  subtitle: Text('This is a notification'),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.notifications_sharp),
+                  title: Text('Notification 2'),
+                  subtitle: Text('This is a notification'),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        /// Messages page
+        ListView.builder(
+          reverse: true,
+          itemCount: 2,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  margin: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Text(
+                    'Hello',
+                    style: theme.textTheme.bodyLarge!
+                        .copyWith(color: theme.colorScheme.onPrimary),
+                  ),
+                ),
+              );
+            }
+            return Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  'Hi!',
+                  style: theme.textTheme.bodyLarge!
+                      .copyWith(color: theme.colorScheme.onPrimary),
+                ),
+              ),
+            );
+          },
+        ),
+
+        //4thpage
+        
+      ][currentPageIndex]
     );
   }
 }
@@ -466,11 +470,13 @@ class SearchTeamsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height:700,
         width: double.infinity,
         child: Column(
           children: [
             // First block
-            Expanded(
+            Container(
+              height:100,
               child: Container(
                 color: Color(0xFF800000), // Burgundy color
                 child: Stack(
@@ -653,111 +659,111 @@ class SearchTeamsPage extends StatelessWidget {
               ),
             ),
             // Fourth block
-            Expanded(
-              child: Container(
-                color: Color(0xFF800000), // Burgundy color
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 80.0, // Adjust the height as needed
-                      color: Color(0xFF800000), // Burgundy color
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TeamsFoundPage(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF6A1B9A), // Slightly darker purple
-                          ),
-                          child: Text(
-                            'Find available teams',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Add your create team logic here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CreateTeamPage(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6A1B9A), // Slightly darker purple
-                            ),
-                            child: Icon(
-                              Icons.create,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.home),
-                            onPressed: () {
-                              // Add your home logic here
-                              Navigator.popUntil(
-                                context,
-                                ModalRoute.withName('/'),
-                              );
-                            },
-                          ),
-                          Stack(
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.notifications),
-                                onPressed: () {
-                                  Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NotificationsPage(),
-                              ),
-                            );
-                                  // Add your notifications logic here
-                                },
-                              ),
-                              Positioned(
-                                top: 5.0,
-                                right: 5.0,
-                                child: CircleAvatar(
-                                  radius: 8.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: Container(
+            //     color: Color(0xFF800000), // Burgundy color
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Container(
+            //           height: 80.0, // Adjust the height as needed
+            //           color: Color(0xFF800000), // Burgundy color
+            //           child: Center(
+            //             child: ElevatedButton(
+            //               onPressed: () {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => TeamsFoundPage(),
+            //                   ),
+            //                 );
+            //               },
+            //               style: ElevatedButton.styleFrom(
+            //                 primary: Color(0xFF6A1B9A), // Slightly darker purple
+            //               ),
+            //               child: Text(
+            //                 'Find available teams',
+            //                 style: TextStyle(
+            //                   color: Colors.white,
+            //                   fontSize: 18.0,
+            //                   fontWeight: FontWeight.bold,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Container(
+            //           height: 50.0, // Adjust the height as needed
+            //           color: Colors.white,
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //             children: [
+            //               ElevatedButton(
+            //                 onPressed: () {
+            //                   // Add your create team logic here
+            //                   Navigator.push(
+            //                     context,
+            //                     MaterialPageRoute(
+            //                       builder: (context) => CreateTeamPage(),
+            //                     ),
+            //                   );
+            //                 },
+            //                 style: ElevatedButton.styleFrom(
+            //                   primary: Color(0xFF6A1B9A), // Slightly darker purple
+            //                 ),
+            //                 child: Icon(
+            //                   Icons.create,
+            //                   color: Colors.white,
+            //                 ),
+            //               ),
+            //               IconButton(
+            //                 icon: Icon(Icons.home),
+            //                 onPressed: () {
+            //                   // Add your home logic here
+            //                   Navigator.popUntil(
+            //                     context,
+            //                     ModalRoute.withName('/'),
+            //                   );
+            //                 },
+            //               ),
+            //               Stack(
+            //                 children: [
+            //                   IconButton(
+            //                     icon: Icon(Icons.notifications),
+            //                     onPressed: () {
+            //                       Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => NotificationsPage(),
+            //                   ),
+            //                 );
+            //                       // Add your notifications logic here
+            //                     },
+            //                   ),
+            //                   Positioned(
+            //                     top: 5.0,
+            //                     right: 5.0,
+            //                     child: CircleAvatar(
+            //                       radius: 8.0,
+            //                       backgroundColor: Colors.red,
+            //                       child: Text(
+            //                         '3',
+            //                         style: TextStyle(
+            //                           color: Colors.white,
+            //                           fontSize: 10.0,
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
