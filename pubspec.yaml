@@ -60,6 +60,9 @@ flutter:
 
   assets:
     - assets/main_page_bball.png
+    - assets/pic1.png
+    - assets/pic2.png
+    - assets/pic3.png
 
   fonts:
     - family: RhodiumLibre
