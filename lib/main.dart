@@ -5,33 +5,184 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainPage(),
+      title: 'e-Exersize',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: MainNavigationBar(),
     );
   }
 }
 
-class MainPage extends StatelessWidget {
+// class MainPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(
+//         width: double.infinity,
+//         child: Column(
+//           children: [
+//             // First block
+//             Expanded(
+//               child: DefaultTextStyle(
+//                 style: TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 20.0,
+//                   fontWeight: FontWeight.bold,
+//                   fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
+//                 ),
+//                 child: Container(
+//                   color: Color(0xFF800000), // Burgundy color
+//                   child: Stack(
+//                     children: [
+//                       Align(
+//                         alignment: Alignment.topLeft,
+//                         child: IconButton(
+//                           icon: Icon(
+//                             Icons.info,
+//                             color: Colors.white,
+//                           ),
+//                           onPressed: () {
+//                             // Add your info icon tap logic here
+//                           },
+//                         ),
+//                       ),
+//                       Center(
+//                         child: Text('Connecting Athletes'),
+//                       ),
+//                       Positioned(
+//                         top: 16.0,
+//                         right: 16.0,
+//                         child: IconButton(
+//                           icon: Icon(
+//                             Icons.info,
+//                             color: Colors.white,
+//                           ),
+//                           onPressed: () {
+//                             // Add your info icon tap logic here
+//                           },
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             // Second block
+//             Container(
+//               height: 400.0,
+//               color: Colors.white,
+//               child: Image.asset(
+//                 'assets/main_page_bball.png', // Replace with your actual image file name
+//                 fit: BoxFit.cover,
+//               ),
+//             ),
+//             // Third block
+//             Expanded(
+//               child: Container(
+//                 color: Color(0xFF800000), // Burgundy color
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Container(
+//                       height: 50.0, // Adjust the height as needed
+//                       color: Color(0xFF800000), // Burgundy color
+//                       child: Center(
+//                         child: ElevatedButton(
+//                           onPressed: () {
+//                             Navigator.push(
+//                               context,
+//                               MaterialPageRoute(
+//                                 builder: (context) => SearchTeamsPage(),
+//                               ),
+//                             );
+//                           },
+//                           style: ElevatedButton.styleFrom(
+//                             backgroundColor: Color(0xFF6A1B9A), // Slightly darker purple
+//                           ),
+//                           child: Text(
+//                             'Search for teams!',
+//                             style: TextStyle(
+//                               color: Colors.white,
+//                               fontSize: 18.0,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class MainNavigationBar extends StatefulWidget {
+  const MainNavigationBar({super.key});
+
+  @override
+  State<MainNavigationBar> createState() => _NavigationBarState();
+}
+
+class _NavigationBarState extends State<MainNavigationBar> {
+  int currentPageIndex = 1;
+
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        child: Column(
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        indicatorColor: theme.colorScheme.surface,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.create),
+            icon: Icon(Icons.create_outlined),
+            label: 'Create Team',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            selectedIcon: Badge(child: Icon(Icons.notifications_sharp)),//label: Text('2') -> add this for notification number
+            icon: Badge(child: Icon(Icons.notifications_outlined)),
+            label: 'Notifications',
+          ),
+
+        ],
+      ),
+
+      body: <Widget>[
+        Column(     /// Home page
           children: [
-            // First block
-            Expanded(
+            Expanded(  // First block
               child: DefaultTextStyle(
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+                  fontFamily: theme.textTheme.bodyLarge!.fontFamily,
                 ),
                 child: Container(
-                  color: Color(0xFF800000), // Burgundy color
+                  color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
                   child: Stack(
                     children: [
                       Align(
@@ -47,7 +198,7 @@ class MainPage extends StatelessWidget {
                         ),
                       ),
                       Center(
-                        child: Text('Connecting Athletes'),
+                        child: Text('Connecting Athletes', style: TextStyle(fontFamily: 'RhodiumLibre')),
                       ),
                       Positioned(
                         top: 16.0,
@@ -67,8 +218,7 @@ class MainPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Second block
-            Container(
+            Container(   // Second block
               height: 400.0,
               color: Colors.white,
               child: Image.asset(
@@ -76,16 +226,15 @@ class MainPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            // Third block
-            Expanded(
+            Expanded(   // Third block
               child: Container(
-                color: Color(0xFF800000), // Burgundy color
+                color: theme.colorScheme.tertiary, // Burgundy color
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       height: 50.0, // Adjust the height as needed
-                      color: Color(0xFF800000), // Burgundy color
+                      color: theme.colorScheme.tertiary, // Burgundy color
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
@@ -97,7 +246,7 @@ class MainPage extends StatelessWidget {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF6A1B9A), // Slightly darker purple
+                            backgroundColor: theme.colorScheme.primary //Color(0xFF6A1B9A), // Slightly darker purple
                           ),
                           child: Text(
                             'Search for teams!',
@@ -110,72 +259,81 @@ class MainPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 50.0, // Adjust the height as needed
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Add your create team logic here
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6A1B9A), // Slightly darker purple
-                            ),
-                            child: Icon(Icons.create),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Add your home logic here
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6A1B9A), // Slightly darker purple
-                            ),
-                            child: Icon(Icons.home),
-                          ),
-                          Stack(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Add your notifications logic here
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF6A1B9A), // Slightly darker purple
-                                ),
-                                child: Icon(Icons.notifications),
-                              ),
-                              Positioned(
-                                top: 5.0,
-                                right: 5.0,
-                                child: CircleAvatar(
-                                  radius: 8.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
+
+        /// Notifications page
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.notifications_sharp),
+                  title: Text('Notification 1'),
+                  subtitle: Text('This is a notification'),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.notifications_sharp),
+                  title: Text('Notification 2'),
+                  subtitle: Text('This is a notification'),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        /// Messages page
+        ListView.builder(
+          reverse: true,
+          itemCount: 2,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  margin: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Text(
+                    'Hello',
+                    style: theme.textTheme.bodyLarge!
+                        .copyWith(color: theme.colorScheme.onPrimary),
+                  ),
+                ),
+              );
+            }
+            return Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  'Hi!',
+                  style: theme.textTheme.bodyLarge!
+                      .copyWith(color: theme.colorScheme.onPrimary),
+                ),
+              ),
+            );
+          },
+        ),
+      ][currentPageIndex],
     );
   }
 }
-
 
 
 class SearchTeamsPage extends StatelessWidget {
