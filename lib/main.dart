@@ -1,6 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
+import 'package:flutter/widgets.dart';
 
-void main() {
+// var settings = ConnectionSettings(
+//   host: '10.1.1.1', 
+//   port: 3306,
+//   user: 'user1',
+//   password: '',
+//   db: 'e_exersize'
+// );
+
+
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // final database = openDatabase(
+  //   join(await getDatabasesPath(), 'sports.db'),
+  //   onCreate: (db, version) {
+  //     return db.execute(
+  //       'CREATE TABLE sports(game_id INTEGER PRIMARY KEY, sport TEXT, region TEXT, time TEXT, duration INTEGER)',
+  //     );
+  //   },
+  //   version: 1,
+  // );
+
+  // // Define a function that inserts dogs into the database
+  // Future<void> insertSport(List<dynamic> sport) async {
+  //   final db = await database;
+
+  //   var sportMap = {
+  //     'game_id': sport[0],
+  //     'sport': sport[1],
+  //     'region': sport[2],
+  //     'time': sport[3],
+  //     'duration': sport[4]
+  //   };
+
+  //   await db.insert(
+  //     'sports',
+  //     sportMap,
+  //     conflictAlgorithm: ConflictAlgorithm.replace,
+  //   );
+  // }
+
+  // Future<List<dynamic>> getSports() async {
+  //   // Get a reference to the database.
+  //   final db = await database;
+
+  //   // Query the table for all The Dogs.
+  //   final List<Map<String, dynamic>> maps = await db.query('sports');
+
+  //   // Convert the List<Map<String, dynamic> into a List<Dog>.
+  //   return [
+  //     maps[0]['game_id'] as int,
+  //     maps[1]['sport'] as String,
+  //     maps[2]['region'] as String,
+  //     maps[3]['time'] as String,
+  //     maps[4]['duration'] as int
+  //   ];
+  // }
+
+  // await insertSport([1, 'Volleyball', 'Zografou', '2024-01-22 12:30:00', 60]);
+  // print(await getSports());
+
   runApp(MyApp());
 }
 
@@ -21,117 +84,6 @@ class MyApp extends StatelessWidget {
 }
 
 
-
-
-
-
-// class MainPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Container(
-//         width: double.infinity,
-//         child: Column(
-//           children: [
-//             // First block
-//             Expanded(
-//               child: DefaultTextStyle(
-//                 style: TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 20.0,
-//                   fontWeight: FontWeight.bold,
-//                   fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
-//                 ),
-//                 child: Container(
-//                   color: Color(0xFF800000), // Burgundy color
-//                   child: Stack(
-//                     children: [
-//                       Align(
-//                         alignment: Alignment.topLeft,
-//                         child: IconButton(
-//                           icon: Icon(
-//                             Icons.info,
-//                             color: Colors.white,
-//                           ),
-//                           onPressed: () {
-//                             // Add your info icon tap logic here
-//                           },
-//                         ),
-//                       ),
-//                       Center(
-//                         child: Text('Connecting Athletes'),
-//                       ),
-//                       Positioned(
-//                         top: 16.0,
-//                         right: 16.0,
-//                         child: IconButton(
-//                           icon: Icon(
-//                             Icons.info,
-//                             color: Colors.white,
-//                           ),
-//                           onPressed: () {
-//                             // Add your info icon tap logic here
-//                           },
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             // Second block
-//             Container(
-//               height: 400.0,
-//               color: Colors.white,
-//               child: Image.asset(
-//                 'assets/main_page_bball.png', // Replace with your actual image file name
-//                 fit: BoxFit.cover,
-//               ),
-//             ),
-//             // Third block
-//             Expanded(
-//               child: Container(
-//                 color: Color(0xFF800000), // Burgundy color
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     Container(
-//                       height: 50.0, // Adjust the height as needed
-//                       color: Color(0xFF800000), // Burgundy color
-//                       child: Center(
-//                         child: ElevatedButton(
-//                           onPressed: () {
-//                             Navigator.push(
-//                               context,
-//                               MaterialPageRoute(
-//                                 builder: (context) => SearchTeamsPage(),
-//                               ),
-//                             );
-//                           },
-//                           style: ElevatedButton.styleFrom(
-//                             backgroundColor: Color(0xFF6A1B9A), // Slightly darker purple
-//                           ),
-//                           child: Text(
-//                             'Search for teams!',
-//                             style: TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 18.0,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class MainNavigationBar extends StatefulWidget {
   const MainNavigationBar({super.key});
@@ -187,77 +139,6 @@ class _NavigationBarState extends State<MainNavigationBar> {
         },
       )
 
-      // <Widget>[
-      //   HomePage(),
-
-      //   //notification page
-      //   const Padding(
-      //     padding: EdgeInsets.all(8.0),
-      //     child: Column(
-      //       children: <Widget>[
-      //         Card(
-      //           child: ListTile(
-      //             leading: Icon(Icons.notifications_sharp),
-      //             title: Text('Notification 1'),
-      //             subtitle: Text('This is a notification'),
-      //           ),
-      //         ),
-      //         Card(
-      //           child: ListTile(
-      //             leading: Icon(Icons.notifications_sharp),
-      //             title: Text('Notification 2'),
-      //             subtitle: Text('This is a notification'),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-
-      //   /// Messages page
-      //   ListView.builder(
-      //     reverse: true,
-      //     itemCount: 2,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       if (index == 0) {
-      //         return Align(
-      //           alignment: Alignment.centerRight,
-      //           child: Container(
-      //             margin: const EdgeInsets.all(8.0),
-      //             padding: const EdgeInsets.all(8.0),
-      //             decoration: BoxDecoration(
-      //               color: theme.colorScheme.primary,
-      //               borderRadius: BorderRadius.circular(8.0),
-      //             ),
-      //             child: Text(
-      //               'Hello',
-      //               style: theme.textTheme.bodyLarge!
-      //                   .copyWith(color: theme.colorScheme.onPrimary),
-      //             ),
-      //           ),
-      //         );
-      //       }
-      //       return Align(
-      //         alignment: Alignment.centerLeft,
-      //         child: Container(
-      //           margin: const EdgeInsets.all(8.0),
-      //           padding: const EdgeInsets.all(8.0),
-      //           decoration: BoxDecoration(
-      //             color: theme.colorScheme.primary,
-      //             borderRadius: BorderRadius.circular(8.0),
-      //           ),
-      //           child: Text(
-      //             'Hi!',
-      //             style: theme.textTheme.bodyLarge!
-      //                 .copyWith(color: theme.colorScheme.onPrimary),
-      //           ),
-      //         ),
-      //       );
-      //     },
-      //   ),
-
-      //   //4thpage
-        
-      // ][currentPageIndex]
     );
   }
 }
@@ -337,7 +218,7 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: 80.0, // Adjust the height as needed
+                  height: 140.0, // Adjust the height as needed
                   color: theme.colorScheme.tertiary, // Burgundy color
                   child: Center(
                     child: ElevatedButton(
@@ -383,13 +264,14 @@ class HomePage extends StatelessWidget {
 class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: Column(
         children: [
           // First block with back icon
           Container(
             height: 135.0, // Assuming standard toolbar height
-            color: Color(0xFF800000), // Burgundy color
+            color: theme.colorScheme.tertiary, // Burgundy color
             child: Row(
               children: [
                 IconButton(
@@ -439,7 +321,7 @@ class InfoPage extends StatelessWidget {
           // Third block (Burgundy background with "NTUA" text)
           Container(
             height: 126.0, // Adjust the height as needed
-            color: Color(0xFF800000), // Burgundy color
+            color: theme.colorScheme.tertiary, // Burgundy color
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -474,8 +356,15 @@ class InfoPage extends StatelessWidget {
 
 
 
-class SearchTeamsPage extends StatelessWidget {
+class SearchTeamsPage extends StatefulWidget {
   const SearchTeamsPage({super.key});
+
+  @override
+  State<SearchTeamsPage> createState() => _SearchTeamsPageState();
+}
+
+class _SearchTeamsPageState extends State<SearchTeamsPage> {
+  var inputData = ['', '', '', ''];
 
   @override
   Widget build(BuildContext context) {
@@ -590,6 +479,9 @@ class SearchTeamsPage extends StatelessWidget {
                             ),
                           ),
                           TextField(
+                            onChanged: (value) {
+                              inputData[0] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'What sport are you interested in',
                               hintStyle: TextStyle(
@@ -624,6 +516,9 @@ class SearchTeamsPage extends StatelessWidget {
                             ),
                           ),
                           TextField(
+                            onChanged: (value) {
+                              inputData[1] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'Where do you want to meet',
                               hintStyle: TextStyle(
@@ -658,6 +553,9 @@ class SearchTeamsPage extends StatelessWidget {
                             ),
                           ),
                           TextField(
+                            onChanged: (value) {
+                              inputData[2] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'When are you available',
                               hintStyle: TextStyle(
@@ -692,6 +590,9 @@ class SearchTeamsPage extends StatelessWidget {
                             ),
                           ),
                           TextField(
+                            onChanged: (value) {
+                              inputData[3] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'For how long',
                               hintStyle: TextStyle(
@@ -714,7 +615,7 @@ class SearchTeamsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: 80.0, // Adjust the height as needed
+                  height: 140.0, // Adjust the height as needed
                   color: theme.colorScheme.tertiary, // Burgundy color
                   child: Center(
                     child: ElevatedButton(
@@ -725,9 +626,10 @@ class SearchTeamsPage extends StatelessWidget {
                         //     builder: (context) => SearchTeamsPage(),
                         //   ),
                         // );
+                        print('Entered Text: $inputData');
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => TeamsFoundPage()),
+                          MaterialPageRoute(builder: (context) => TeamsFoundPage(params: inputData)),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -1004,7 +906,8 @@ class CreateTeamPage extends StatelessWidget {
 
 
 class TeamsFoundPage extends StatefulWidget {
-  const TeamsFoundPage({super.key});
+  final List<String> params;
+  const TeamsFoundPage({super.key, required this.params});
   @override
   _TeamsFoundPageState createState() => _TeamsFoundPageState();
 }
@@ -1013,6 +916,36 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
   bool isOptionSelected1 = false;
   bool isOptionSelected2 = false;
   bool isOptionSelected3 = false;
+
+  // Future fetchData() async {
+  //   try {
+  //     WidgetsFlutterBinding.ensureInitialized();
+  //     final database = openDatabase(
+  //       join(await getDatabasesPath(), 'sports.db'),
+  //       onCreate: (db, version) {
+  //         return db.execute(
+  //           'CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)',
+  //         );
+  //       },
+  //     );
+
+
+  //     final conn = await MySqlConnection.connect(settings);
+  //     var results = await conn.query(
+  //       'SELECT * FROM Entries WHERE sport = ? AND region = ? AND time = ? AND duration = ?', widget.params);
+  
+  //     for (var row in results) {
+  //       print('Sport: ${row[1]}, Region: ${row[2]} Time: ${row[3]} Duration: ${row[4]}');
+  //     }
+
+  //     await conn.close();
+  //     setState(() {
+  //       data = results;
+  //     });
+  //   } catch (e) {
+  //       print(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -1109,7 +1042,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 50.0, // Adjust the height as needed
+                      height: 140.0, // Adjust the height as needed
                       color: theme.colorScheme.tertiary, // Burgundy color
                       child: Center(
                         child: ElevatedButton(
