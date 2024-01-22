@@ -160,22 +160,9 @@ class HomePage extends StatelessWidget {
               fontFamily: theme.textTheme.bodyLarge!.fontFamily,
             ),
             child: Container(
-              color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
+              color: theme.colorScheme.tertiary,   
               child: Stack(
                 children: [
-                  // Commenting out the info icon at the top left
-                  // Align(
-                  //   alignment: Alignment.topLeft,
-                  //   child: IconButton(
-                  //     icon: Icon(
-                  //       Icons.info,
-                  //       color: Colors.white,
-                  //     ),
-                  //     onPressed: () {
-                  //       // Add your info icon tap logic here
-                  //     },
-                  //   ),
-                  // ),
                   Center(
                     child: Text('Connecting Athletes', style: TextStyle(fontFamily: 'RhodiumLibre')),
                   ),
@@ -188,7 +175,7 @@ class HomePage extends StatelessWidget {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        // Navigating to the InfoPage when the top right info icon is pressed
+                        // function when pressed the Info icon
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -207,35 +194,29 @@ class HomePage extends StatelessWidget {
           height: 400.0,
           color: Colors.white,
           child: Image.asset(
-            'assets/main_page_bball.png', // Replace with your actual image file name
+            'assets/main_page_bball.png', 
             fit: BoxFit.cover,
           ),
         ),
         Expanded(   // Third block
           child: Container(
-            color: theme.colorScheme.tertiary, // Burgundy color
+            color: theme.colorScheme.tertiary, 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: 140.0, // Adjust the height as needed
-                  color: theme.colorScheme.tertiary, // Burgundy color
+                  height: 140.0, 
+                  color: theme.colorScheme.tertiary, 
                   child: Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push( //this changes page with animation, can it be implemented within the current navigationbar??
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => SearchTeamsPage(),
-                        //   ),
-                        // );
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => SearchTeamsPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary //Color(0xFF6A1B9A), // Slightly darker purple
+                        backgroundColor: theme.colorScheme.primary 
                       ),
                       child: Text(
                         'Search for teams!',
@@ -268,10 +249,9 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // First block with back icon
-          Container(
-            height: 135.0, // Assuming standard toolbar height
-            color: theme.colorScheme.tertiary, // Burgundy color
+          Container(  // First block with image
+            height: 135.0,
+            color: theme.colorScheme.tertiary,
             child: Row(
               children: [
                 IconButton(
@@ -294,7 +274,7 @@ class InfoPage extends StatelessWidget {
                             fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
                           ),
                         ),
-                        SizedBox(height: 8.0), // Adjust the spacing between texts
+                        SizedBox(height: 8.0),
                         Text(
                           'Version 1.0',
                           style: TextStyle(
@@ -314,14 +294,13 @@ class InfoPage extends StatelessWidget {
             height: 420.0,
             color: Colors.white,
             child: Image.asset(
-              'assets/main_page_bball.png', // Replace with your actual image file name
+              'assets/main_page_bball.png', 
               fit: BoxFit.cover,
             ),
           ),
-          // Third block (Burgundy background with "NTUA" text)
-          Container(
-            height: 126.0, // Adjust the height as needed
-            color: theme.colorScheme.tertiary, // Burgundy color
+          Container(  // Third block with image
+            height: 126.0, 
+            color: theme.colorScheme.tertiary, 
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -334,7 +313,7 @@ class InfoPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0), // Adjust the spacing between texts
+                  SizedBox(height: 8.0),
                   Text(
                     'For academic purposes only',
                     style: TextStyle(
@@ -380,24 +359,10 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
               fontFamily: theme.textTheme.bodyLarge!.fontFamily,
             ),
             child: Container(
-              color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
+              color: theme.colorScheme.tertiary,
               child: Stack(
                 children: [
-                  // Commenting out the info icon at the top left
-                  // Align(
-                  //   alignment: Alignment.topLeft,
-                  //   child: IconButton(
-                  //     icon: Icon(
-                  //       Icons.info,
-                  //       color: Colors.white,
-                  //     ),
-                  //     onPressed: () {
-                  //       // Add your info icon tap logic here
-                  //     },
-                  //   ),
-                  // ),
                   SafeArea(
-                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -415,32 +380,11 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          //fontWeight: FontWeight.bold,
                           fontFamily: 'RhodiumLibre'
                         ),
                         textAlign: TextAlign.center,
                       ),
                   ),
-                  // Positioned(
-                  //   top: 1.0,
-                  //   right: 16.0,
-                  //   child: SafeArea(child:
-                  //     IconButton(
-                  //       icon: Icon(
-                  //         Icons.info,
-                  //         color: Colors.white,
-                  //       ),
-                  //       onPressed: () {
-                  //         // Navigating to the InfoPage when the top right info icon is pressed
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //             builder: (context) => InfoPage(),
-                  //           ),
-                  //         );
-                  //       },
-                  //   ),)
-                  // ),
                 ],
               ),
             ),
@@ -453,17 +397,16 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                 fit: StackFit.expand,
                 children: [
                   Image.asset(
-                    'assets/main_page_bball.png', // Replace with your actual image file name
+                    'assets/main_page_bball.png',
                     fit: BoxFit.cover,
                   ),
-                  // Third block - Four purplish white background text frames
                   Positioned(
-                    top: 25.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 25.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -495,12 +438,12 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                     ),
                   ),
                   Positioned(
-                    top: 120.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 120.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -532,12 +475,12 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                     ),
                   ),
                   Positioned(
-                    top: 215.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 215.0, 
+                    left: 20.0,
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -569,12 +512,12 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                     ),
                   ),
                   Positioned(
-                    top: 310.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 310.0,
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -610,22 +553,16 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
             ),
         Expanded(   // Third block
           child: Container(
-            color: theme.colorScheme.tertiary, // Burgundy color
+            color: theme.colorScheme.tertiary, 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: 140.0, // Adjust the height as needed
-                  color: theme.colorScheme.tertiary, // Burgundy color
+                  height: 140.0, 
+                  color: theme.colorScheme.tertiary,
                   child: Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push( //this changes page with animation, can it be implemented within the current navigationbar??
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => SearchTeamsPage(),
-                        //   ),
-                        // );
                         print('Entered Text: $inputData');
                         Navigator.push(
                           context,
@@ -633,7 +570,7 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary //Color(0xFF6A1B9A), // Slightly darker purple
+                        backgroundColor: theme.colorScheme.primary 
                       ),
                       child: Text(
                         'Find available teams!',
@@ -668,14 +605,13 @@ class CreateTeamPage extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            // First block
+              // First block
             Expanded(
               child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
+                color: theme.colorScheme.tertiary,
                 child: Stack(
                   children: [
                     SafeArea(
-                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -692,7 +628,6 @@ class CreateTeamPage extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          //fontWeight: FontWeight.bold,
                           fontFamily: 'RhodiumLibre'
                         ),
                         textAlign: TextAlign.center,
@@ -710,17 +645,17 @@ class CreateTeamPage extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   Image.asset(
-                    'assets/main_page_bball.png', // Replace with your actual image file name
+                    'assets/main_page_bball.png', 
                     fit: BoxFit.cover,
                   ),
-                  // Third block - Four purplish white background text frames
+                  // Third block 
                   Positioned(
-                    top: 25.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 25.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -749,12 +684,12 @@ class CreateTeamPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 120.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 120.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -783,12 +718,12 @@ class CreateTeamPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 215.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 215.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -817,12 +752,12 @@ class CreateTeamPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 310.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 310.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: MediaQuery.of(context).size.width - 40.0,
@@ -856,13 +791,13 @@ class CreateTeamPage extends StatelessWidget {
             // Fourth block
             Expanded(
               child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
+                color: theme.colorScheme.tertiary, 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 80.0, // Adjust the height as needed
-                      color: theme.colorScheme.tertiary, // Burgundy color
+                      height: 80.0, 
+                      color: theme.colorScheme.tertiary,
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
@@ -872,7 +807,7 @@ class CreateTeamPage extends StatelessWidget {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: theme.colorScheme.primary, // Slightly darker purple
+                            primary: theme.colorScheme.primary, 
                           ),
                           child: Text(
                             'Create team',
@@ -958,11 +893,10 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
             // First block
             Expanded(
               child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
+                color: theme.colorScheme.tertiary, 
                 child: Stack(
                   children: [
                     SafeArea(
-                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -991,7 +925,6 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          //fontWeight: FontWeight.bold,
                           fontFamily: 'RhodiumLibre'
                         ),
                         textAlign: TextAlign.center,
@@ -1009,24 +942,22 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Background Image
                   Image.asset(
-                    'assets/main_page_bball.png', // Replace with your actual image file name
+                    'assets/main_page_bball.png', 
                     fit: BoxFit.cover,
                   ),
-                  // Large Frame
                   Container(
-                    color: Colors.grey[200], // Grayish white color
+                    color: Colors.grey[200], 
                     width: MediaQuery.of(context).size.width,
-                    height: 380.0, // Adjust the height as needed
+                    height: 380.0,
                     padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         buildOptionBlock(context, 'Team 1', 'Sport: Basketball', 'Region: Zografou, Athens', 'Time: 18:00 every day', 'Duration: 1 hour', isOptionSelected1),
-                        SizedBox(height: 10.0), // Add a little gap between blocks
+                        SizedBox(height: 10.0), 
                         buildOptionBlock(context, 'Team 2', 'Sport: Running', 'Region: Glyfada, Athens', 'Time: 18:00, 5/12/24', 'Duration: 2 hours', isOptionSelected2),
-                        SizedBox(height: 10.0), // Add a little gap between blocks
+                        SizedBox(height: 10.0), 
                         buildOptionBlock(context, 'Team 3', 'Sport: Volleyball', 'Region: Palaio Faliro, Athens', 'Time: 19:00 every Friday', 'Duration: 1,5 hours', isOptionSelected3),
                       ],
                     ),
@@ -1037,13 +968,13 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
             // Third block
             Expanded(
               child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
+                color: theme.colorScheme.tertiary, 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 140.0, // Adjust the height as needed
-                      color: theme.colorScheme.tertiary, // Burgundy color
+                      height: 140.0, 
+                      color: theme.colorScheme.tertiary, 
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
@@ -1053,7 +984,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: theme.colorScheme.primary, // Slightly darker purple
+                            primary: theme.colorScheme.primary, 
                           ),
                           child: Text(
                             'Accept',
@@ -1165,7 +1096,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
             height: 20.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.black), // Black circle outline
+              border: Border.all(color: Colors.black), 
             ),
             child: Center(
               child: Container(
@@ -1173,12 +1104,12 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                 height: 12.0,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isSelected ? Colors.black : Colors.transparent, // Filled black circle
+                  color: isSelected ? Colors.black : Colors.transparent,
                 ),
               ),
             ),
           ),
-          SizedBox(width: 10.0), // Add a little gap between circle and text
+          SizedBox(width: 10.0), 
           // Text Block
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1242,11 +1173,10 @@ class NotificationsPage extends StatelessWidget {
             // First block
             Expanded(
               child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
+                color: theme.colorScheme.tertiary, 
                 child: Stack(
                   children: [
                     SafeArea(
-                      //alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -1263,7 +1193,6 @@ class NotificationsPage extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          //fontWeight: FontWeight.bold,
                           fontFamily: 'RhodiumLibre'
                         
                         ),
@@ -1281,29 +1210,29 @@ class NotificationsPage extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   Image.asset(
-                    'assets/main_page_bball.png', // Replace with your actual image file name
+                    'assets/main_page_bball.png',
                     fit: BoxFit.cover,
                   ),
-                  // Third block - Three purplish white background text frames
+                  // Third block
                   Positioned(
-                    top: 30.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 30.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      width: MediaQuery.of(context).size.width - 70.0, // Adjust the width as needed
+                      width: MediaQuery.of(context).size.width - 70.0, 
                       child: Row(
                         children: [
                           Container(
                             padding: EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200], // Grayish white color
+                              color: Colors.grey[200], 
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            width: MediaQuery.of(context).size.width - 160.0, // Adjust the width as needed
+                            width: MediaQuery.of(context).size.width - 160.0, 
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -1325,35 +1254,35 @@ class NotificationsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(width: 10.0), // Adjust the spacing between the containers
+                          SizedBox(width: 10.0), 
                           Image.asset(
-                            'assets/pic1.png', // Replace with your right image file name
-                            height: 60.0, // Adjust the height as needed
-                            width: 60.0, // Adjust the width as needed
+                            'assets/pic1.png', 
+                            height: 60.0, 
+                            width: 60.0, 
                           ),
                         ],
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 125.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 125.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      width: MediaQuery.of(context).size.width - 70.0, // Adjust the width as needed
+                      width: MediaQuery.of(context).size.width - 70.0, 
                       child: Row(
                         children: [
                           Container(
                             padding: EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200], // Grayish white color
+                              color: Colors.grey[200], 
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            width: MediaQuery.of(context).size.width - 160.0, // Adjust the width as needed
+                            width: MediaQuery.of(context).size.width - 160.0, 
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -1375,35 +1304,35 @@ class NotificationsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(width: 10.0), // Adjust the spacing between the containers
+                          SizedBox(width: 10.0),
                           Image.asset(
-                            'assets/pic2.png', // Replace with your right image file name
-                            height: 60.0, // Adjust the height as needed
-                            width: 60.0, // Adjust the width as needed
+                            'assets/pic2.png',
+                            height: 60.0, 
+                            width: 60.0, 
                           ),
                         ],
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 230.0, // Adjust the top position based on your design
-                    left: 20.0, // Adjust the left position based on your design
+                    top: 230.0, 
+                    left: 20.0, 
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Grayish white color
+                        color: Colors.grey[200], 
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      width: MediaQuery.of(context).size.width - 70.0, // Adjust the width as needed
+                      width: MediaQuery.of(context).size.width - 70.0, 
                       child: Row(
                         children: [
                           Container(
                             padding: EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200], // Grayish white color
+                              color: Colors.grey[200], 
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            width: MediaQuery.of(context).size.width - 160.0, // Adjust the width as needed
+                            width: MediaQuery.of(context).size.width - 160.0,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -1425,11 +1354,11 @@ class NotificationsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(width: 10.0), // Adjust the spacing between the containers
+                          SizedBox(width: 10.0), 
                           Image.asset(
-                            'assets/pic3.png', // Replace with your right image file name
-                            height: 60.0, // Adjust the height as needed
-                            width: 60.0, // Adjust the width as needed
+                            'assets/pic3.png', 
+                            height: 60.0,
+                            width: 60.0, 
                           ),
                         ],
                       ),
@@ -1441,7 +1370,7 @@ class NotificationsPage extends StatelessWidget {
             // Third block
             Expanded(
               child: Container(
-                color: theme.colorScheme.tertiary, // Burgundy color
+                color: theme.colorScheme.tertiary,
                 // child: Column(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //   children: [
@@ -1521,21 +1450,3 @@ class NotificationsPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
