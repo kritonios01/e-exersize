@@ -12,57 +12,135 @@ import 'package:flutter/widgets.dart';
 //   db: 'e_exersize'
 // );
 
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+
+class DatabaseHelper {
+  static Database? _database;
+  final String tableName = 'sports';
+
+  Future<Database> get database async {
+    if (_database != null) {
+      return _database!;
+    }
+
+    // Open the database (create if it doesn't exist)
+    _database = await openDatabase(
+      'e_exersize.db',
+      version: 1,
+      onCreate: (Database db, int version) async {
+        // Create your table if it doesn't exist
+        await db.execute('''
+          CREATE TABLE $tableName (
+            game_id INTEGER PRIMARY KEY,
+            sport TEXT,
+            region TEXT,
+            time TEXT,
+            duration INTEGER
+          )
+        ''');
+      },
+    );
+
+    return _database!;
+  }
+
+  Future<int> deleteAllData() async {
+    final db = await database;
+    return db.delete(tableName);
+  }
+
+
+  // Define a function that inserts dogs into the database
+  Future<int> insertData(Map<String, dynamic> data) async {
+    final db = await database;
+    return db.insert(
+      tableName,
+      data,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Query method with WHERE clause                  "name = ?"    ['John']
+  Future<List<Map<String, dynamic>>> queryData(String whereClause, List<dynamic> whereArgs) async {
+    final db = await database;
+    return db.query(tableName, where: whereClause, whereArgs: whereArgs);
+  }
+}
+
+class SportData {
+  final int id;
+  final String sport;
+  final String region;
+  final String time;
+  final int duration;
+
+
+  SportData({required this.id, required this.sport, required this.region, required this.time, required this.duration});
+
+  // Factory method to create a YourData object from a map
+  factory SportData.fromMap(Map<String, dynamic> map) {
+    return SportData(
+      id: map['game_id'],
+      sport: map['sport'],
+      region: map['region'],
+      time: map['time'],
+      duration: map['duration']
+    );
+  }
+}
+
+
+
+
+
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // final database = openDatabase(
-  //   join(await getDatabasesPath(), 'sports.db'),
-  //   onCreate: (db, version) {
-  //     return db.execute(
-  //       'CREATE TABLE sports(game_id INTEGER PRIMARY KEY, sport TEXT, region TEXT, time TEXT, duration INTEGER)',
-  //     );
-  //   },
-  //   version: 1,
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  final DatabaseHelper dbHelper = DatabaseHelper();
 
-  // // Define a function that inserts dogs into the database
-  // Future<void> insertSport(List<dynamic> sport) async {
-  //   final db = await database;
 
-  //   var sportMap = {
-  //     'game_id': sport[0],
-  //     'sport': sport[1],
-  //     'region': sport[2],
-  //     'time': sport[3],
-  //     'duration': sport[4]
-  //   };
+  int t = await dbHelper.deleteAllData();
+  print('Deleted: $t');
 
-  //   await db.insert(
-  //     'sports',
-  //     sportMap,
-  //     conflictAlgorithm: ConflictAlgorithm.replace,
-  //   );
-  // }
+  final List<Map<String, dynamic>> sports = [
+    {'sport': 'Volleyball', 'region': 'Zografou', 'time': '2024-01-22 12:30:00', 'duration': 60},
+    {'sport': 'Volleyball', 'region': 'Zografou', 'time': '2024-01-22 12:30:00', 'duration': 60},
+    {'sport': 'Basketball', 'region': 'Nea Erythraia', 'time': '2024-02-24 17:30:00', 'duration': 90},
+    {'sport': 'Football', 'region': 'Peristeri', 'time': '2024-01-26 20:30:00', 'duration': 120},
+    {'sport': 'Football', 'region': 'Peristeri', 'time': '2024-01-26 20:30:00', 'duration': 120},
+    {'sport': 'Football', 'region': 'Peristeri', 'time': '2024-01-26 20:30:00', 'duration': 120},
+    {'sport': 'Ice Skating', 'region': 'Aigaleo', 'time': '2024-01-30 18:00:00', 'duration': 45},
+    {'sport': 'Football', 'region': 'Kifisia', 'time': '2024-03-02 17:00:00', 'duration': 90},
+    {'sport': 'Football', 'region': 'Kifisia', 'time': '2024-03-02 17:00:00', 'duration': 90},
+    {'sport': 'Basketball', 'region': 'Zografou', 'time': '2024-02-02 10:00:00', 'duration': 120},
+    {'sport': 'Basketball', 'region': 'Zografou', 'time': '2024-02-02 10:00:00', 'duration': 120},
+    {'sport': 'Tennis', 'region': 'Petroupoli', 'time': '2024-02-03 15:30:00', 'duration': 60},
+    {'sport': 'Cycling', 'region': 'Piraeus', 'time': '2024-01-31 16:30:00', 'duration': 180},
+    {'sport': 'Cycling', 'region': 'Piraeus', 'time': '2024-01-31 16:30:00', 'duration': 180},
+    {'sport': 'Cycling', 'region': 'Piraeus', 'time': '2024-01-31 16:30:00', 'duration': 180},
+    {'sport': 'Sailing', 'region': 'Alimos', 'time': '2024-03-10 13:00:00', 'duration': 90},
+    {'sport': 'Basketball', 'region': 'Zografou', 'time': '2024-01-25 18:00:00', 'duration': 90},
+    {'sport': 'Swimming', 'region': 'Voula', 'time': '2024-03-25 09:00:00', 'duration': 60},
+    {'sport': 'Football', 'region': 'Nikaia', 'time': '2024-02-08 14:15:00', 'duration': 120},
+    {'sport': 'Ping pong', 'region': 'Zografou', 'time': '2024-01-28 19:30:00', 'duration': 90},
+    {'sport': 'Ping pong', 'region': 'Zografou', 'time': '2024-01-28 19:30:00', 'duration': 90},
+    {'sport': 'Bowling', 'region': 'Kallithea', 'time': '2024-02-10 17:30:00', 'duration': 60},
+    {'sport': 'Volleyball', 'region': 'Chalandri', 'time': '2024-01-30 16:00:00', 'duration': 90},
+    {'sport': 'Volleyball', 'region': 'Chalandri', 'time': '2024-01-30 16:00:00', 'duration': 90},
+  ];
 
-  // Future<List<dynamic>> getSports() async {
-  //   // Get a reference to the database.
-  //   final db = await database;
+  int lastId = 0;
+  //print('Reached point1!!!!!!!!!!!!!!!');
+  // Insert data into the database
+  for (var sport in sports) {
+    lastId = await dbHelper.insertData(sport);
+  }
 
-  //   // Query the table for all The Dogs.
-  //   final List<Map<String, dynamic>> maps = await db.query('sports');
 
-  //   // Convert the List<Map<String, dynamic> into a List<Dog>.
-  //   return [
-  //     maps[0]['game_id'] as int,
-  //     maps[1]['sport'] as String,
-  //     maps[2]['region'] as String,
-  //     maps[3]['time'] as String,
-  //     maps[4]['duration'] as int
-  //   ];
-  // }
-
-  // await insertSport([1, 'Volleyball', 'Zografou', '2024-01-22 12:30:00', 60]);
-  // print(await getSports());
+  
+  //print('Reached point2!!!!!!!!!!!!!!!');
+  print('Data inserted with last row ID: $lastId');
 
   runApp(MyApp());
 }
@@ -163,19 +241,7 @@ class HomePage extends StatelessWidget {
               color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
               child: Stack(
                 children: [
-                  // Commenting out the info icon at the top left
-                  // Align(
-                  //   alignment: Alignment.topLeft,
-                  //   child: IconButton(
-                  //     icon: Icon(
-                  //       Icons.info,
-                  //       color: Colors.white,
-                  //     ),
-                  //     onPressed: () {
-                  //       // Add your info icon tap logic here
-                  //     },
-                  //   ),
-                  // ),
+
                   Center(
                     child: Text('Connecting Athletes', style: TextStyle(fontFamily: 'RhodiumLibre')),
                   ),
@@ -364,7 +430,7 @@ class SearchTeamsPage extends StatefulWidget {
 }
 
 class _SearchTeamsPageState extends State<SearchTeamsPage> {
-  var inputData = ['', '', '', ''];
+  List<dynamic> inputData = ['', '', '', 0];
 
   @override
   Widget build(BuildContext context) {
@@ -383,19 +449,7 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
               color: theme.colorScheme.tertiary,    //Color(0xFF800000), // Burgundy color
               child: Stack(
                 children: [
-                  // Commenting out the info icon at the top left
-                  // Align(
-                  //   alignment: Alignment.topLeft,
-                  //   child: IconButton(
-                  //     icon: Icon(
-                  //       Icons.info,
-                  //       color: Colors.white,
-                  //     ),
-                  //     onPressed: () {
-                  //       // Add your info icon tap logic here
-                  //     },
-                  //   ),
-                  // ),
+
                   SafeArea(
                       //alignment: Alignment.topLeft,
                       child: IconButton(
@@ -421,26 +475,7 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                         textAlign: TextAlign.center,
                       ),
                   ),
-                  // Positioned(
-                  //   top: 1.0,
-                  //   right: 16.0,
-                  //   child: SafeArea(child:
-                  //     IconButton(
-                  //       icon: Icon(
-                  //         Icons.info,
-                  //         color: Colors.white,
-                  //       ),
-                  //       onPressed: () {
-                  //         // Navigating to the InfoPage when the top right info icon is pressed
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //             builder: (context) => InfoPage(),
-                  //           ),
-                  //         );
-                  //       },
-                  //   ),)
-                  // ),
+
                 ],
               ),
             ),
@@ -591,7 +626,7 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
                           ),
                           TextField(
                             onChanged: (value) {
-                              inputData[3] = value;
+                              inputData[3] = int.parse(value);
                             },
                             decoration: InputDecoration(
                               hintText: 'For how long',
@@ -660,6 +695,24 @@ class _SearchTeamsPageState extends State<SearchTeamsPage> {
 
 
 class CreateTeamPage extends StatelessWidget {
+  List<dynamic> inputData = ['', '', '', 0];
+
+  Future<void> _createTeamAndNavigate(BuildContext context) async {
+    final DatabaseHelper dbHelper = DatabaseHelper();
+    await dbHelper.insertData({
+      'sport': inputData[0],
+      'region': inputData[1],
+      'time': inputData[2],
+      'duration': inputData[3]
+    });
+    //print(n);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -736,6 +789,9 @@ class CreateTeamPage extends StatelessWidget {
                             ),
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              inputData[0] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'What sport are you interested in',
                               hintStyle: TextStyle(
@@ -770,6 +826,9 @@ class CreateTeamPage extends StatelessWidget {
                             ),
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              inputData[1] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'Where do you want to meet',
                               hintStyle: TextStyle(
@@ -804,6 +863,9 @@ class CreateTeamPage extends StatelessWidget {
                             ),
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              inputData[2] = value;
+                            },
                             decoration: InputDecoration(
                               hintText: 'When are you available',
                               hintStyle: TextStyle(
@@ -838,6 +900,9 @@ class CreateTeamPage extends StatelessWidget {
                             ),
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              inputData[3] = int.parse(value);
+                            },
                             decoration: InputDecoration(
                               hintText: 'For how long',
                               hintStyle: TextStyle(
@@ -866,10 +931,13 @@ class CreateTeamPage extends StatelessWidget {
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
-                            );
+                            //final DatabaseHelper dbHelper = DatabaseHelper();
+                            //await dbHelper.insertData(sport);
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => HomePage()),
+                            // );
+                            _createTeamAndNavigate(context);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: theme.colorScheme.primary, // Slightly darker purple
@@ -906,49 +974,75 @@ class CreateTeamPage extends StatelessWidget {
 
 
 class TeamsFoundPage extends StatefulWidget {
-  final List<String> params;
+  final List<dynamic> params;
   const TeamsFoundPage({super.key, required this.params});
   @override
   _TeamsFoundPageState createState() => _TeamsFoundPageState();
 }
 
 class _TeamsFoundPageState extends State<TeamsFoundPage> {
-  bool isOptionSelected1 = false;
-  bool isOptionSelected2 = false;
-  bool isOptionSelected3 = false;
+  // bool isOptionSelected1 = false;
+  // bool isOptionSelected2 = false;
+  // bool isOptionSelected3 = false;
 
-  // Future fetchData() async {
-  //   try {
-  //     WidgetsFlutterBinding.ensureInitialized();
-  //     final database = openDatabase(
-  //       join(await getDatabasesPath(), 'sports.db'),
-  //       onCreate: (db, version) {
-  //         return db.execute(
-  //           'CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)',
-  //         );
-  //       },
-  //     );
+  int? selectedTeamId;
 
+  late List<SportData> availableSports; //= [SportData(id: 0, sport: 'Not available', region: 'Not available', time: 'Not available', duration: 0)];
 
-  //     final conn = await MySqlConnection.connect(settings);
-  //     var results = await conn.query(
-  //       'SELECT * FROM Entries WHERE sport = ? AND region = ? AND time = ? AND duration = ?', widget.params);
-  
-  //     for (var row in results) {
-  //       print('Sport: ${row[1]}, Region: ${row[2]} Time: ${row[3]} Duration: ${row[4]}');
-  //     }
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
-  //     await conn.close();
-  //     setState(() {
-  //       data = results;
-  //     });
-  //   } catch (e) {
-  //       print(e);
-  //   }
-  // }
+  final DatabaseHelper dbHelper = DatabaseHelper();
+  Future<List<SportData>> fetchData() async {
+
+    List<Map<String, dynamic>> results = await dbHelper.queryData(
+      'sport = ? AND region = ? AND time = ? AND duration = ?', widget.params);
+
+    availableSports = results.map((map) => SportData.fromMap(map)).toList();
+
+    setState(() {
+      
+    });
+    availableSports.forEach((data) {
+      print('ID: ${data.id}, Name: ${data.sport}, Age: ${data.region} ${data.time} ${data.duration}');
+    });
+
+    return availableSports;
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    print(availableSports);
+
+
+
+    List<Widget> optionBlocks = availableSports.map((SportData row) {
+      return Column(
+        children: [
+          buildOptionBlock(
+            context,
+            row.id,
+            'Sport: ${row.sport}',
+            'Region: ${row.region}',
+            'Time: ${row.time}',
+            'Duration: ${row.duration}',
+            selectedTeamId == row.id, // Check if this team is selected
+            () {
+              setState(() {
+                selectedTeamId = row.id; // Update the selected team ID on tap
+              });
+            },
+          ),
+          SizedBox(height: 10.0),
+        ],
+      );
+    }).toList();
+
+    
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: Container(
@@ -973,18 +1067,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                         },
                       ),
                     ),
-                    // Align(
-                    //   alignment: Alignment.topLeft,
-                    //   child: IconButton(
-                    //     icon: Icon(
-                    //       Icons.arrow_back,
-                    //       color: Colors.white,
-                    //     ),
-                    //     onPressed: () {
-                    //       Navigator.pop(context);
-                    //     },
-                    //   ),
-                    // ),
+
                     Center(
                       child: Text(
                         'We found some teams that match your criteria!',
@@ -1022,13 +1105,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                     padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        buildOptionBlock(context, 'Team 1', 'Sport: Basketball', 'Region: Zografou, Athens', 'Time: 18:00 every day', 'Duration: 1 hour', isOptionSelected1),
-                        SizedBox(height: 10.0), // Add a little gap between blocks
-                        buildOptionBlock(context, 'Team 2', 'Sport: Running', 'Region: Glyfada, Athens', 'Time: 18:00, 5/12/24', 'Duration: 2 hours', isOptionSelected2),
-                        SizedBox(height: 10.0), // Add a little gap between blocks
-                        buildOptionBlock(context, 'Team 3', 'Sport: Volleyball', 'Region: Palaio Faliro, Athens', 'Time: 19:00 every Friday', 'Duration: 1,5 hours', isOptionSelected3),
-                      ],
+                      children: optionBlocks
                     ),
                   ),
                 ],
@@ -1066,74 +1143,7 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
                         ),
                       ),
                     ),
-                    // Container(
-                    //   height: 50.0, // Adjust the height as needed
-                    //   color: Colors.white,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //     children: [
-                    //       ElevatedButton(
-                    //         onPressed: () {
-                    //           // Add your create team logic here
-                    //           Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //               builder: (context) => CreateTeamPage(),
-                    //             ),
-                    //           );
-                    //         },
-                    //         style: ElevatedButton.styleFrom(
-                    //           primary: Color(0xFF6A1B9A), // Slightly darker purple
-                    //         ),
-                    //         child: Icon(
-                    //           Icons.create,
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //       IconButton(
-                    //         icon: Icon(Icons.home),
-                    //         onPressed: () {
-                    //           // Add your home logic here
-                    //           Navigator.popUntil(
-                    //             context,
-                    //             ModalRoute.withName('/'),
-                    //           );
-                    //         },
-                    //       ),
-                    //       Stack(
-                    //         children: [
-                    //           IconButton(
-                    //             icon: Icon(Icons.notifications),
-                    //             onPressed: () {
-                    //               Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (context) => NotificationsPage(),
-                    //           ),
-                    //         );
-                    //               // Add your notifications logic here
-                    //             },
-                    //           ),
-                    //           Positioned(
-                    //             top: 5.0,
-                    //             right: 5.0,
-                    //             child: CircleAvatar(
-                    //               radius: 8.0,
-                    //               backgroundColor: Colors.red,
-                    //               child: Text(
-                    //                 '3',
-                    //                 style: TextStyle(
-                    //                   color: Colors.white,
-                    //                   fontSize: 10.0,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    
                   ],
                 ),
               ),
@@ -1144,88 +1154,88 @@ class _TeamsFoundPageState extends State<TeamsFoundPage> {
     );
   }
 
-  Widget buildOptionBlock(BuildContext context, String team, String sport, String region, String time, String duration, bool isSelected) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          if (team == 'Team 1') {
-            isOptionSelected1 = !isOptionSelected1;
-          } else if (team == 'Team 2') {
-            isOptionSelected2 = !isOptionSelected2;
-          } else if (team == 'Team 3') {
-            isOptionSelected3 = !isOptionSelected3;
-          }
-        });
-      },
-      child: Row(
-        children: [
-          // Option Circle
-          Container(
-            width: 20.0,
-            height: 20.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.black), // Black circle outline
-            ),
-            child: Center(
-              child: Container(
-                width: 12.0,
-                height: 12.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isSelected ? Colors.black : Colors.transparent, // Filled black circle
-                ),
+
+Widget buildOptionBlock(
+  BuildContext context,
+  int teamId,
+  String sport,
+  String region,
+  String time,
+  String duration,
+  bool isSelected,
+  VoidCallback onTap,
+) {
+  final ThemeData theme = Theme.of(context);
+  return GestureDetector(
+    onTap: onTap,
+    child: Row(
+      children: [
+        // Option Circle
+        Container(
+          width: 20.0,
+          height: 20.0,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: theme.colorScheme.primary)//Colors.black), // Black circle outline
+          ),
+          child: Center(
+            child: Container(
+              width: 12.0,
+              height: 12.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? theme.colorScheme.primary : Colors.transparent, // Filled black circle
               ),
             ),
           ),
-          SizedBox(width: 10.0), // Add a little gap between circle and text
-          // Text Block
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                team,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                ),
+        ),
+        SizedBox(width: 10.0), // Add a little gap between circle and text
+        // Text Block
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Team ID: $teamId',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                sport,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
-                ),
+            ),
+            Text(
+              sport,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
               ),
-              Text(
-                region,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
-                ),
+            ),
+            Text(
+              region,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
               ),
-              Text(
-                time,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
-                ),
+            ),
+            Text(
+              time,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
               ),
-              Text(
-                duration,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
-                ),
+            ),
+            Text(
+              duration,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
               ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}}
 
 
 
@@ -1442,77 +1452,7 @@ class NotificationsPage extends StatelessWidget {
             Expanded(
               child: Container(
                 color: theme.colorScheme.tertiary, // Burgundy color
-                // child: Column(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Container(
-                //       height: 50.0, // Adjust the height as needed
-                //       color: Color(0xFF800000), // Burgundy color
-                //     ),
-                //     Container(
-                //       height: 50.0, // Adjust the height as needed
-                //       color: Colors.white,
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           ElevatedButton(
-                //             onPressed: () {
-                //               // Add your create team logic here
-                //               Navigator.push(
-                //                 context,
-                //                 MaterialPageRoute(
-                //                   builder: (context) => CreateTeamPage(),
-                //                 ),
-                //               );
-                //             },
-                //             style: ElevatedButton.styleFrom(
-                //               primary: Color(0xFF6A1B9A), // Slightly darker purple
-                //             ),
-                //             child: Icon(
-                //               Icons.create,
-                //               color: Colors.white,
-                //             ),
-                //           ),
-                //           IconButton(
-                //             icon: Icon(Icons.home),
-                //             onPressed: () {
-                //               // Add your home logic here
-                //               Navigator.popUntil(
-                //                 context,
-                //                 ModalRoute.withName('/'),
-                //               );
-                //             },
-                //           ),
-                //           Stack(
-                //             children: [
-                //               IconButton(
-                //                 icon: Icon(Icons.notifications),
-                //                 onPressed: () {
-                //                   // Add your notifications logic here
-                //                 },
-                //               ),
-                //               Positioned(
-                //                 top: 5.0,
-                //                 right: 5.0,
-                //                 child: CircleAvatar(
-                //                   radius: 8.0,
-                //                   backgroundColor: Colors.red,
-                //                   child: Text(
-                //                     '3',
-                //                     style: TextStyle(
-                //                       color: Colors.white,
-                //                       fontSize: 10.0,
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                
               ),
             ),
           ],
